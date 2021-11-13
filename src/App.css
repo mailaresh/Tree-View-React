@@ -1,38 +1,28 @@
-.App {
-  text-align: center;
+.card-body {
+  border: 1px solid rgb(167, 153, 153);
+  padding: 5px;
+  border-radius: 5px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.treenode > .treenode > li{
+  padding-left: 10px;
+  border-left: 1px solid rgb(0, 0, 0);
+  margin-left: 10px;
+  line-height: 1.4em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.treenode:not(.expanded) .treenode {
+  display: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+ul {
+  list-style-type: none;
+  margin: 0;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.horz {
+  margin: 10px 0px 0px 10px;
+  position: absolute;
+  border-top: 1px solid black;
+  width: 10px;
 }
