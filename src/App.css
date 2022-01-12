@@ -1,27 +1,34 @@
+/* .App {
+  font-family: sans-serif;
+  text-align: center;
+} */
 .card-body {
-  border: 1px solid rgb(167, 153, 153);
+  border: 1px solid #a79999;
   padding: 5px;
   border-radius: 5px;
 }
 
-.treenode > .treenode > li{
+/* .treenode > .treenode > li {
   padding-left: 10px;
   border-left: 1px solid rgb(0, 0, 0);
   margin-left: 10px;
   line-height: 1.4em;
-}
+} */
 
 .treenode:not(.expanded) .treenode {
   display: none;
 }
 
-ul {
+ul:not(.noVertical) {
   list-style-type: none;
-  margin: 0;
+  margin-left: 15px;
+  padding-left: 15px;
+  line-height: 1.4em;
+  border-left: 1px solid rgb(0, 0, 0);
 }
 
-.horz {
-  margin: 10px 0px 0px 10px;
+.horz1 {
+  margin: 10px 0px 0px -15px;
   position: absolute;
   border-top: 1px solid black;
   width: 10px;

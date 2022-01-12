@@ -1,56 +1,7 @@
-import React, { Component } from 'react';
-import './App.css';
-
-const data = [
-  {
-    "country": "EMEA",
-    "location": [
-      {
-        "region": "Berlin"
-      }
-    ]
-  },
-  {
-    "country": "Colo",
-    "location": [
-      {
-        "region": "Colo Demo Room"
-      }
-    ]
-  },
-  {
-    "country": "North America",
-    "location": [
-      {
-        "region": "St. Louis"
-      },
-      {
-        "region": "San Diego"
-      }
-    ]
-  },
-  {
-    "country": "Asia",
-    "location": [
-      {
-        "region": "Singapore"
-      }
-    ]
-  },
-  {
-    "country": "South America",
-    "location": [
-      {
-        "region": "DCO-Demo-Room-1"
-      },
-      {
-        "region": "HPE Demo"
-      }
-    ]
-  }
-];
+import "./App.css";
+import datacenters from "./DataCenters";
+import React, { Component } from "react";
 class TreeNode extends Component {
-
   state = { expanded: false };
 
   toggleExpanded = ({ target, currentTarget }) => {
@@ -62,49 +13,90 @@ class TreeNode extends Component {
 
   render() {
     const { expanded } = this.state;
-    const { children } = this.props;
-    
-    if(this.props.type === "ul") {
+    // const { children } = this.props;
+
+    if (this.props.head === "dcType") {
       return (
-        <ul className={'treenode' + (expanded ? ' expanded' : '')}
-        onClick={this.toggleExpanded}>
-          {children}
+        <ul
+          className={"treenode noVertical" + (expanded ? " expanded" : "")}
+          onClick={this.toggleExpanded}
+        >
+          {this.props.children}
         </ul>
       );
     } else {
       return (
-        <div className={'treenode' + (expanded ? ' expanded' : '')}>
-            <div className="horz"></div>
-            <li onClick={this.toggleExpanded}>
-              {children}
-            </li>
-        </div>
+        <ul
+          className={"treenode" + (expanded ? " expanded" : "")}
+          onClick={this.toggleExpanded}
+        >
+          {" "}
+          <div className="horz1"></div>
+          {this.props.children}
+        </ul>
       );
     }
   }
 }
 
 export default function App() {
+  function ConstructTree(arr) {
+    return arr.map((d, i) => {
+      return (
+        <TreeNode head="dcType">
+          {" "}
+          {d["dcType"] ? d["dcType"] : "NA"}
+          {d["regions"] && d["regions"].length > 0
+            ? d["regions"].map((l1) => {
+                return (
+                  <TreeNode>
+                    {" "}
+                    {l1["region"] ? l1["region"] : "NA"}
+                    {l1["countries"] && l1["countries"].length > 0
+                      ? l1["countries"].map((l2) => {
+                          return (
+                            <TreeNode>
+                              {" "}
+                              {l2["countryName"] ? l2["countryName"] : "NA"}
+                              {l2["cities"] && l2["cities"].length > 0
+                                ? l2["cities"].map((l3) => {
+                                    return (
+                                      <TreeNode>
+                                        {" "}
+                                        {l3["cityName"] ? l3["cityName"] : "NA"}
+                                        {l3["locations"] &&
+                                        l3["locations"].length > 0
+                                          ? l3["locations"].map((loc) => {
+                                              return (
+                                                <TreeNode>
+                                                  {" "}
+                                                  {loc["locationName"]
+                                                    ? loc["locationName"]
+                                                    : "NA"}{" "}
+                                                </TreeNode>
+                                              );
+                                            })
+                                          : null}
+                                      </TreeNode>
+                                    );
+                                  })
+                                : null}
+                            </TreeNode>
+                          );
+                        })
+                      : null}
+                  </TreeNode>
+                );
+              })
+            : null}
+          {i < datacenters.length - 1 ? <hr></hr> : null}
+        </TreeNode>
+      );
+    });
+  }
   return (
     <div className="container">
-      <div className="card-body">
-        {data.map((d, i) => {
-          if(d.location.length <= 0)
-          return <div><TreeNode type="ul">{d.country}</TreeNode><hr></hr></div>;
-          else {
-            return (
-              <div>
-                <TreeNode type="ul">{d.country}
-                  {d.location.map(n =>
-                    <TreeNode type="li">{n.region}</TreeNode> 
-                  )}
-                </TreeNode>
-                <hr></hr>
-              </div>
-            );
-          }
-        })}
-      </div>
+      <div className="card-body">{ConstructTree(datacenters)}</div>
     </div>
   );
 }
